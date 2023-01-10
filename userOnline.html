@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>检测用户网络在线</title>
+    <style>
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        .status {
+            background: #efefef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .offline .online-msg {
+            display: none;
+        }
+
+        .offline .offline-msg {
+            display: block;
+        }
+
+        div {
+            padding: 1rem 2rem;
+            font-size: 3rem;
+            border-radius: 1rem;
+            color: white;
+            font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        .online-msg {
+            background: green;
+            display: block;
+        }
+
+        .offline-msg {
+            background: red;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="status">
+        <div class="offline-msg">你的网络断开了 😢</div>
+        <div class="online-msg"> 你已经连上网络 🔗</div>
+    </div>
+    <script>
+        const status1 = document.querySelector('.status')
+        // load监听网页加载事件
+        window.addEventListener('load', () => {
+            const handleNetworkChange = () => {
+                // navigator.onLine API来检测网络状态 navigator.online会返回一个布尔值确定用户是否在线
+                // true表示在线,false表示离线,只要浏览器连接到网络的状态发生改变,属性值就会变化
+                if (navigator.onLine) {
+                    // 给stasus下的offine-msg和online-msg移除类名和样式
+                    status1.classList.remove('offline')
+                } else {
+                    // 给stasus下的offine-msg和online-msg添加类名和样式
+                    status1.classList.add('offline')
+                }
+            }
+            // online该事件在浏览器开始在线工作时触发
+            window.addEventListener('online', handleNetworkChange)
+            // online该事件在浏览器开始离线工作时触发
+            window.addEventListener('offline', handleNetworkChange)
+        })
+    </script>
+</body>
+
+</html>
